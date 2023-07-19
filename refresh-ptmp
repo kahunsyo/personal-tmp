@@ -1,0 +1,18 @@
+#!/bin/sh
+
+set -e
+#set -x
+
+ROOT_PTMP_DIR="/ptmp"
+ROOT_ARCHIVE_DIR="$ROOT_PTMP_DIR/.old"
+
+mkdir -p -m 1777 "$ROOT_PTMP_DIR"
+mkdir -p -m 1777 "$ROOT_ARCHIVE_DIR"
+
+# make a dir with a format of YYYY-MM-DD.XXX
+# XXX is random.
+ARCHIVE_DIR=$(mktemp -p "$ROOT_ARCHIVE_DIR" -d $(date --iso-8601).XXX)
+chmod 1777 "$ARCHIVE_DIR"
+
+# Archive files in $ROOT_PTMP_DIR to $ARCHIVE_DIR
+find "$ROOT_PTMP_DIR" -mindepth 1 -maxdepth 1 ! -path "$ROOT_ARCHIVE_DIR" -exec mv -t "$ARCHIVE_DIR" {} +

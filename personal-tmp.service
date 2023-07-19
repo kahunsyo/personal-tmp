@@ -1,0 +1,10 @@
+[Unit]
+Description=Personal tmp direcotry service
+Before=shutdown.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/refresh-ptmp
+
+[Install]
+WantedBy=multi-user.target
